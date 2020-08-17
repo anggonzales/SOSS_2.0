@@ -45,6 +45,7 @@ public class PrincipalServicio extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         etbuscarnombre = (EditText)findViewById(R.id.edtBusqueda);
+
         etbuscarnombre.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

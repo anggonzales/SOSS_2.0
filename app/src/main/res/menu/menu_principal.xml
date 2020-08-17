@@ -8,7 +8,7 @@
             android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
             android:id="@+id/activity_micuenta"/>
         <item android:title="Consultar Servicios"
-            android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
+            android:icon="@drawable/icono_buscar"
             android:id="@+id/activity_consulta_servicios"/>
         <item android:title="Pagos realizados"
             android:icon="@drawable/common_google_signin_btn_icon_dark_normal"

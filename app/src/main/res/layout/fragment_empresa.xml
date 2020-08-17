@@ -82,7 +82,7 @@
 
         <Button
 
-            android:id="@+id/button"
+            android:id="@+id/btnChat"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="47dp"
             android:layout_height="67dp"
@@ -96,7 +96,7 @@
 
         <Button
 
-            android:id="@+id/button2"
+            android:id="@+id/btnLlamar"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="47dp"
             android:layout_height="67dp"

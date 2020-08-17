@@ -1,11 +1,15 @@
 package com.example.soss.Fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Rating;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -30,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,9 +56,11 @@ public class EmpresaFragment extends Fragment {
     String longitudservicio;
     String nombreempresa;
     double ratingtotal;
+    String celular;
     String idEmpresa,NombreEmpresa,DescripcionEmpresa;
     TextView txtPrueba,txtTituloEmpresa;
     Button btnUbicacion, btnCalificacion;
+    Button btnLlamar, btnChat;
     RatingBar ratingBarCalificacion ;
    // private DatabaseReference reference;
     FirebaseAuth mAuth;
@@ -103,6 +110,8 @@ public class EmpresaFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_empresa, container, false);
         btnUbicacion = (Button)view.findViewById(R.id.btnUbicacion);
         btnCalificacion = (Button)view.findViewById(R.id.btnCalificacion);
+        btnLlamar = (Button)view.findViewById(R.id.btnLlamar);
+        btnChat = (Button)view.findViewById(R.id.btnChat);
        // txtPrueba = (TextView)view.findViewById(R.id.txtPrueba);
         txtTituloEmpresa = (TextView)view.findViewById(R.id.txtTituloEmpresa) ;
         mAuth = FirebaseAuth.getInstance();
@@ -119,6 +128,7 @@ public class EmpresaFragment extends Fragment {
         idEmpresa = extras.getString("IdEmpresa");
         ratingtotal = extras.getDouble("Calificacion");
         ratingBarCalificacion.setRating((float) ratingtotal);
+        celular = extras.getString("Celular");
         txtTituloEmpresa.setText(nombreempresa);
 
         btnUbicacion.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +146,34 @@ public class EmpresaFragment extends Fragment {
             MostrarDialogRating();
         });
 
+        btnLlamar.setOnClickListener( v -> {
+            Intent intent = new Intent(Intent.ACTION_CALL,
+                    Uri.parse("tel:" + celular));
+            if (ContextCompat.checkSelfPermission( getActivity(),
+                    Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                startActivity(intent);
+            }
+        });
+
+        btnChat.setOnClickListener(v -> {
+            PackageManager packageManager = getActivity().getPackageManager();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            try {
+                String url = "https://api.whatsapp.com/send?phone=" + "+51" + celular + "&text="
+                        + URLEncoder.encode("Buen día, ", "UTF-8");
+                i.setPackage("com.whatsapp");
+                i.setData(Uri.parse(url));
+                if (i.resolveActivity(packageManager) != null) {
+                    this.startActivity(i);
+                }
+                else {
+                    Toast.makeText(getActivity(), "No tiene Whatsapp porfavor instale la app"
+                            , Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         return view;
     }
 
